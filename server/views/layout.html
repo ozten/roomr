@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>{% block title %}Rooms{% endblock %}</title>
+<link rel="stylesheet" media="screen,projection,tv"
+      href="/css/persona.css" />
+
+</head>
+<body>
+<div id="signinpanel">
+  <a id="signin" href="#" class="persona-button dark"><span>Sign in with your Email</span></a>
+  <a id="signout" class="persona-button dark"><span>Sign Out</span></a>
+</div>
+{% block body %}
+Hello World
+{% endblock %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="https://login.persona.org/include.js"></script>
+<script>
+$('#signinpanel').show();
+var signinLink = document.getElementById('signin');
+if (signinLink) {
+  signinLink.onclick = function() {
+    $('#signinpanel').hide();
+    navigator.id.request();
+  };
+};
+
+var signoutLink = document.getElementById('signout');
+if (signoutLink) {
+  signoutLink.onclick = function() {
+    $('#signinpanel').hide();
+    navigator.id.logout();
+  };
+};
+var currentUser = {{ currentUser }};
+
+if (!! currentUser) {
+    $('#signout').show();
+    $('#signin').hide();
+} else {
+    $('#signin').show();
+    $('#signout').hide();
+}
+
+navigator.id.watch({
+  loggedInUser: currentUser,
+  onlogin: function(assertion) {
+    console.log('watch onlogin callback');
+    // A user has logged in! Here you need to:
+    // 1. Send the assertion to your backend for verification and to create a session.
+    // 2. Update your UI.
+
+    $.ajax({ /* <-- This example uses jQuery, but you can use whatever you'd like */
+      type: 'POST',
+      url: '/auth/login', // This is a URL on your website.
+      data: {assertion: assertion},
+      success: function(res, status, xhr) {
+        $('#signout').show();
+        $('#signin').hide();
+        $('#signinpanel').show();
+        //window.location.reload();
+      },
+      error: function(res, status, xhr) {
+        $('#signinpanel').show();
+        alert("login failure" + res);
+      }
+    });
+  },
+  onlogout: function() {
+    console.log('watch onlogout callback');
+    // A user has logged out! Here you need to:
+    // Tear down the user's session by redirecting the user or making a call to your backend.
+    // Also, make sure loggedInUser will get set to null on the next page load.
+    // (That's a literal JavaScript null. Not false, 0, or undefined. null.)
+    $('#signinpanel').hide();
+    $.ajax({
+      type: 'POST',
+      url: '/auth/logout', // This is a URL on your website.
+      success: function(res, status, xhr) {
+        $('#signin').show();
+        $('#signout').hide();
+        $('#signinpanel').show();
+
+        //window.location.reload();
+      },
+      error: function(res, status, xhr) {
+        $('#signinpanel').show();
+         alert("logout failure" + res); }
+    });
+  }
+});
+</script>
+</body>
+</html>

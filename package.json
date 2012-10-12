@@ -1,0 +1,15 @@
+{
+  "name": "ozten",
+  "version": "0.0.0",
+  "description": "Experimental personal space for niche social networking",
+  "main": "server/bin/rooms",
+  "scripts": {
+    "test": "vows tests/*.js"
+  },
+  "dependencies": {
+    "client-sessions": "0.0.5",
+    "express": "2.5.11",
+    "nunjucks": "0.1.5"
+  },
+  "private": true
+}

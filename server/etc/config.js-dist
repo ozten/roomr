@@ -1,0 +1,3 @@
+exports.cookie_name = 'session_state';
+exports.secret = 'CHANGE ME TO SOMETHING RANDOM';
+exports.duration = 24 * 60 * 60 * 1000;
