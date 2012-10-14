@@ -1,9 +1,42 @@
 {% extends "layout.html" %}
+{% block pagecss %}
+<link rel="stylesheet" media="screen,projection,tv" href="/css/home.css" />
+{% endblock %}
 {% block body %}
-  Howdy there.
+
+<div id="welcome">
+  <h1>Welcome to your Personal Room</h1>
+  <p>Please sign in with an email address.</p>
+</div>
+<div id="new-user">
+  <h2>Welcome! What's Your name?</h2>
+  <form id="profile">
+    <fieldset>
+      <label for="profilename">Name</label></label>
+      <input type="text" id="profilename" name="profilename" value="" />
+    </fieldset>
+    <input type="submit" value="Save" />
+  </form>
+</div>
+<div id="authenticated">
+  <h2>Recent Rooms</h2>
   <ul>
-  {% for user in users %}
-    <li><a href="{{ user.url }}">{{ user.username }}</a></li>
-  {% endfor %}
+    <li></li>
   </ul>
+  <h2>Get a Room!</h2>
+  <form id="new-room" action="">
+    <fieldset>
+      <label for="subject">Subject</label>
+      <input id="subject" name="subject" type="text" value="" />
+    </fieldset>
+    <fieldset>
+      <label for="body">First Post</label>
+      <textarea id="body" name="body"></textarea>
+    </fieldset>
+    <input type="submit" value="Create Room" />
+  </form>
+</div>
+{% endblock %}
+{% block pagejs %}
+<script src="/js/home.js"></script>
 {% endblock %}

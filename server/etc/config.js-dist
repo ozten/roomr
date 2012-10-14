@@ -1,3 +1,11 @@
+// session
 exports.cookie_name = 'session_state';
 exports.secret = 'CHANGE ME TO SOMETHING RANDOM';
 exports.duration = 24 * 60 * 60 * 1000;
+
+// mysql
+exports.mysqlHost = "localhost";
+exports.config.mysqlPort = 3306;
+exports.config.mysqlUser = "user";
+exports.mysqlPassword = "password";
+exports.mysqlDBName = "dev_rooms";

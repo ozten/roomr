@@ -241,3 +241,9 @@
     .wrap a{
       margin-bottom: 40px;
     }
+
+#signinpanel .persona-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
