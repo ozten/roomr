@@ -45,6 +45,9 @@ navigator.id.watch({
       url: '/auth/login', // This is a URL on your website.
       data: {assertion: assertion},
       success: function(res, status, xhr) {
+
+        $('body').trigger('auth-login');
+
         $('#signout').show();
         if (res.name) {
           $('#authenticated').show();
@@ -77,6 +80,7 @@ navigator.id.watch({
       type: 'POST',
       url: '/auth/logout', // This is a URL on your website.
       success: function(res, status, xhr) {
+        $('body').trigger('auth-logout');
         $('#signin').show();
         $('#welcome').show();
         $('#signout').hide();

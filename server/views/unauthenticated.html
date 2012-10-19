@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block pagecss %}
+<link rel="stylesheet" media="screen,projection,tv" href="/css/home.css" />
+{% endblock %}
+{% block body %}
+
+<div id="welcome">
+  <h1>Welcome to your Personal Room</h1>
+  <p>Please sign in with an email address.</p>
+</div>
+<div id="new-user">
+  <h2>Welcome! What's Your name?</h2>
+  <form id="profile">
+    <fieldset>
+      <label for="profilename">Name</label></label>
+      <input type="text" id="profilename" name="profilename" value="" />
+    </fieldset>
+    <input type="submit" value="Save" />
+  </form>
+</div>
+{% endblock %}
+{% block pagejs %}
+<script src="/js/unauthenticated.js"></script>
+{% endblock %}

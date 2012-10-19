@@ -4,13 +4,19 @@ var db = require('./lib/db'),
 
 exports.setup = function (app) {
 
+app.use(function (req, res, next) {
+    var cu = req.session.email ? '"' + req.session.email + '"' : "null";
+    console.log(cu);
+    res.local('currentUser', cu);
+    next();
+});
+
 app.get('/', function (req, res) {
     // currrentUser must be formatted for direct output in JS
     // so null or "alice@example.com"
-    var cu = req.session.email ? '"' + req.session.email + '"' : "null";
-    console.log(cu);
+
     var ctx = {
-        currentUser: cu
+
     };
     console.log(req.session);
     res.render('home.html', ctx);
@@ -25,6 +31,32 @@ app.post('/create', function (req, res) {
         res.send(err, 500);
     } else {
         res.send(roomId);
+    }
+  });
+});
+
+app.get('/r/:roomId', function (req, res) {
+  var roomId = req.params.roomId;
+  console.log(req.session);
+  if (! req.session.email) {
+    return res.render('unauthenticated.html');
+  }
+  db.getRoom(roomId, function (err, room) {
+    if (err) {
+        return res.send("Error loading room: " + err);
+    } else if (! room.room.name) {
+        return res.render('unknown_room.html');
+    } else {
+        db.addMemberToRoom(req.session.email, roomId, function (err) {
+            if (err) console.error('Unable to add user to room ' + err);
+        });
+        console.log('room =');
+        console.log(room);
+
+        return res.render('room.html', {
+            room: room.room,
+            members: room.members
+        });
     }
   });
 });

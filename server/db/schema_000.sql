@@ -14,5 +14,6 @@ CREATE TABLE IF NOT EXISTS rooms_members (
   rooms_id varchar(256),
   member_email varchar(40),
   FOREIGN KEY (rooms_id) REFERENCES rooms(id),
-  FOREIGN KEY (member_email) REFERENCES members(email)
+  FOREIGN KEY (member_email) REFERENCES members(email),
+  PRIMARY KEY (rooms_id, member_email)
 );

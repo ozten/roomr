@@ -6,7 +6,8 @@ config = require('../etc/config'),
 express = require('express'),
 nunjucks = require('nunjucks'),
 path = require('path'),
-routes = require('../routes');
+routes = require('../routes'),
+sockets = require('../sockets');
 
 var views = path.join(__dirname, '../views');
 env = new nunjucks.Environment(new nunjucks.FileSystemLoader(views));
@@ -23,6 +24,7 @@ app.use(clientSessions({
 }));
 
 routes.setup(app);
+sockets.setup(app);
 
 app.use(express.static(path.join(__dirname, '../../client')));
 

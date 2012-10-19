@@ -1,0 +1,60 @@
+/*********** STRUCTURE **********/
+body {
+    margin: 0px;
+    padding: 0px;
+}
+#room {
+    min-height: 800px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#members {
+    position: fixed;
+    width: 100%;
+    background-color: #999;
+    margin-top: -10px;
+}
+#members, #stream ol {
+    list-style: none;
+    margin-left: -35px;
+}
+#members li {
+    margin-left: 0px;
+    float: left;
+    width: 106px;
+    background-color: #999;
+    text-align: center;
+    padding-top: 5px;
+    line-height: 2;
+}
+#room-name {
+    clear: both;
+    margin-top: 160px;
+}
+#stream {
+    margin-bottom: 100px;
+}
+#editor {
+    position: fixed;
+    bottom: 0px;
+    background-color: #666;
+    width: 100%;
+}
+#editor textarea {
+    margin-top: 10px;
+}
+/***********   STYLE   **********/
+
+
+#room {
+    background-color: #666;
+    border: solid 1px #666;
+}
+
+#stream ol li {
+    background-color: #DDD;
+    line-height: 1.4;
+    padding: 20px;
+    margin-bottom: 5px;
+
+}
