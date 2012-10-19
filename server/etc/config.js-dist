@@ -1,3 +1,5 @@
+exports.audience = 'http://localhost:9714';
+
 // session
 exports.cookie_name = 'session_state';
 exports.secret = 'CHANGE ME TO SOMETHING RANDOM';

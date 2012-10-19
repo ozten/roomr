@@ -1,4 +1,5 @@
-var db = require('./lib/db'),
+var config = require('./etc/config'),
+    db = require('./lib/db'),
     https = require('https'),
     qs = require('querystring');
 
@@ -54,6 +55,7 @@ app.get('/r/:roomId', function (req, res) {
         console.log(room);
 
         return res.render('room.html', {
+            audience: config.audience,
             room: room.room,
             members: room.members
         });
@@ -96,7 +98,7 @@ app.post('/auth/login', function (req, res) {
     };
     var postBody = qs.stringify({
         assertion: req.body.assertion,
-        audience: 'http://192.168.186.138:9714'
+        audience: config.audience
     });
     var opts = {
         host: 'verifier.login.persona.org',

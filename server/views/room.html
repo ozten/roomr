@@ -40,4 +40,7 @@ Vivamus fermentum semper porta. Nunc</li>
 {% block pagejs %}
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/rooms.js"></script>
+<script>
+connect('{{audience}}', '{{room.id}}');
+</script>
 {% endblock %}
