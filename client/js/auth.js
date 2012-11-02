@@ -35,7 +35,6 @@ if (!! currentUser) {
 navigator.id.watch({
   loggedInUser: currentUser,
   onlogin: function(assertion) {
-    console.log('watch onlogin callback');
     // A user has logged in! Here you need to:
     // 1. Send the assertion to your backend for verification and to create a session.
     // 2. Update your UI.
@@ -52,14 +51,12 @@ navigator.id.watch({
         if (res.name) {
           $('#authenticated').show();
         } else {
-          $('#new-user').show();
+          collectProfile();
         }
 
         $('#signin').hide();
         $('#welcome').hide();
         $('#signinpanel').show();
-
-        console.log(res);
 
         //window.location.reload();
       },
@@ -70,7 +67,6 @@ navigator.id.watch({
     });
   },
   onlogout: function() {
-    console.log('watch onlogout callback');
     // A user has logged out! Here you need to:
     // Tear down the user's session by redirecting the user or making a call to your backend.
     // Also, make sure loggedInUser will get set to null on the next page load.
@@ -88,11 +84,38 @@ navigator.id.watch({
         $('#new-user').hide();
         $('#signinpanel').show();
 
-        //window.location.reload();
+        window.location.reload();
       },
       error: function(res, status, xhr) {
         $('#signinpanel').show();
          alert("logout failure" + res); }
     });
   }
+});
+
+function collectProfile () {
+  $('#new-user').show();
+}
+
+function hideProfileForm () {
+  $('#authenticated').show();
+  $('#new-user').hide();
+}
+
+$('#profile').bind('submit', function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '/profile',
+        data: {
+          name: $('#profilename').val()
+        },
+        success: function (data, status, xhr) {
+          hideProfileForm();
+          $('body').trigger('page_loaded_user_ready');          
+        },
+        error: function (xhr, status, err) {
+            alert('Unable to update your profile. Try again later');
+        }
+    });
 });

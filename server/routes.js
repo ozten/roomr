@@ -6,10 +6,25 @@ var config = require('./etc/config'),
 exports.setup = function (app) {
 
 app.use(function (req, res, next) {
-    var cu = req.session.email ? '"' + req.session.email + '"' : "null";
+  var cu = "null",
+  needsProfile = false,
+  cont = function (cu) {
     console.log(cu);
     res.local('currentUser', cu);
+    res.local('JSON', JSON);
     next();
+  };
+
+  if (req.session.email) {
+    cu = '"' + req.session.email + '"';
+    db.getProfile(req.session.email, function (err, profile) {
+      res.local('profile', profile);
+      cont(cu);
+    });
+  } else {
+    res.local('profile', null);
+    cont(cu);
+  }
 });
 
 app.get('/', function (req, res) {
@@ -71,6 +86,19 @@ app.post('/profile', function (req, res) {
             res.send('OK');
         }
     });
+});
+
+// Widgets - return HTML fragments
+app.get('/widgets/members/:roomId', function (req, res) {
+  console.log('list members of ' + req.params.roomId);
+  db.getRoom(req.params.roomId, function (err, room) {
+    if (err) {
+      console.error(err);
+      res.send(err, 500);
+    } else {
+      res.render('widget/members.html', {members: room.members});
+    }
+  });
 });
 
 // Persona Authentication

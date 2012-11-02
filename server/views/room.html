@@ -1,14 +1,10 @@
-{% extends "layout.html" %}
+>{% extends "layout.html" %}
 {% block pagecss %}
 <link rel="stylesheet" media="screen,projection,tv" href="/css/room.css" />
 {% endblock %}
 {% block body %}
 <div id="room">
-  <ol id="members">
-  {% for member in members %}
-    <li><img src="{{member.avatar}}" width="96" alt="{{ member.email }}" title="{{ member.email }}" /> {{ member.name }}</li>
-  {% endfor %}
-  </ol>
+  {% include "widget/members.html" %}
   <h1 id="room-name">{{ room.name }}</h1>
 
   <div id="stream">
@@ -41,6 +37,14 @@ Vivamus fermentum semper porta. Nunc</li>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/rooms.js"></script>
 <script>
-connect('{{audience}}', '{{room.id}}');
+var roomId = '{{room.id}}';
+var knownEmails = {};
+{% for member in members %}
+knownEmails['{{member.email}}'] = true;
+{% endfor %}
+$('body').bind('page_loaded_user_ready', function (e) {
+  connect('{{audience}}', '{{room.id}}');
+});
+
 </script>
 {% endblock %}

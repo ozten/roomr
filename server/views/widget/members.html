@@ -1,0 +1,5 @@
+  <ol id="members">
+  {% for member in members %}
+    <li><img src="{{member.avatar}}" width="96" alt="{{ member.email }}" title="{{ member.email }}" /> {{ member.name }}</li>
+  {% endfor %}
+  </ol>

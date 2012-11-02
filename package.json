@@ -2,8 +2,8 @@
   "name": "ozten",
   "version": "0.0.0",
   "description": "Experimental personal space for niche social networking",
-  "main": "server/bin/rooms",
   "scripts": {
+    "start": "server/bin/room",
     "test": "vows tests/*.js"
   },
   "dependencies": {

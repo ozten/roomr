@@ -13,7 +13,7 @@ $('#new-room').bind('submit', function (e) {
     success: function (data, status, xhr) {
       console.log(data);
 
-      body += "\n\nJoin the conversation https://roo.mr/r/" + data + "\n\n";
+      body += "\n\nJoin the conversation http://roomr.co/r/" + data + "\n\n";
 
       var mail = "mailto:create@rooms.com?";
       mail += "subject=" + encodeURIComponent(subj);
@@ -28,20 +28,3 @@ $('#new-room').bind('submit', function (e) {
 
 });
 
-$('#profile').bind('submit', function (e) {
-    e.preventDefault();
-    $.ajax({
-        type: 'POST',
-        url: '/profile',
-        data: {
-          name: $('#profilename').val()
-        },
-        success: function (data, status, xhr) {
-            $('#authenticated').show();
-            $('#new-user').hide();
-        },
-        error: function (xhr, status, err) {
-            alert('Unable to update your profile. Try again later');
-        }
-    });
-});

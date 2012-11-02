@@ -1,3 +1,4 @@
+
 window.connect = function (audience, roomId) {
   var socket = io.connect(audience);
   socket.on('connect', function () {
@@ -26,8 +27,15 @@ window.connect = function (audience, roomId) {
       console.log('RECONNECTING');
   });
 
+  console.log(knownEmails);
   socket.on('post message', function (data) {
-      console.log(data);
+      if (! knownEmails[currentUser]) {
+	knownEmails[currentUser] = true;
+	$('#members').load('/widgets/members/' + roomId);
+      } else if (! knownEmails[data.email]) {
+        knownEmails[data.email] = true;
+	$('#members').load('/widgets/members/' + roomId);
+      }
       var h = '<li>' + data.email + ' - ' + data.message + '</li>';
 
       var revchron = false;
@@ -37,7 +45,6 @@ window.connect = function (audience, roomId) {
           $('#stream ol').append(h);
 
       window.scrollTo(0, 1000000);
-
   });
 
   $('#editor form').bind('submit', function (e) {
@@ -50,5 +57,5 @@ window.connect = function (audience, roomId) {
 
   });
 
-  $('button').bind('click', function (e) {e.preventDefault(); alert('Would eventually be a photo picker and uploader') });
+  $('button').bind('click', function (e) {e.preventDefault(); alert('Would eventually be a photo picker and uploader'); });
 };
