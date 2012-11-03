@@ -1,3 +1,35 @@
+/* new-user form - can be shown from home.html (inside #authenticated) or room.html */
 #new-user {
     display: hidden;
+}
+
+#authenticated .cancel {
+  background-color: pink;
+  display: none;
+}
+
+#room #new-room {
+  position: absolute;
+}
+
+#new-room {
+  background-color: #FFF;
+  color: #121719;
+  width: 300px;
+  padding: 0.5em;
+  line-height: 2;
+}
+#new-room label {
+  width: 100px;
+  display: block;
+  float: left;
+}
+#new-room textarea, #new-room input[type=text] {
+  width: 200px;
+}
+#new-room input[type=submit] {
+  margin-top: 0.5em;
+}
+.rtl {
+  text-align: right;
 }

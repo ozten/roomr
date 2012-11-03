@@ -42,6 +42,21 @@ body {
 #editor textarea {
     margin-top: 10px;
 }
+
+#new-room-tab {
+  position: absolute;
+  right: 0px;
+  top: 45%;
+}
+
+#new-room-stub {
+  border: solid 1px blue;
+  position: absolute;
+  right: 0px;
+  top: 35%;
+  width: 320px;
+}
+
 /***********   STYLE   **********/
 
 
@@ -55,5 +70,21 @@ body {
     line-height: 1.4;
     padding: 20px;
     margin-bottom: 5px;
+
+}
+
+#new-room-tab a {
+  font-size: 4em;
+  text-decoration: none;
+  background: #5D9FAF;
+  color: #344447;
+  padding: 0.2em;
+}
+#new-room-tab a:hover {
+  background: #538d9f;
+  color: #121719;
+}
+
+#new-room-stub {
 
 }

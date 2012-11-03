@@ -31,6 +31,8 @@ Vivamus fermentum semper porta. Nunc</li>
       <input type="submit" value="Send" />
     </form>
   </div>
+  <div id="new-room-tab"><a href="">+</a></div>
+  <div id="new-room-stub"></div>
 </div>
 {% endblock %}
 {% block pagejs %}
@@ -47,4 +49,5 @@ $('body').bind('page_loaded_user_ready', function (e) {
 });
 
 </script>
+<script src="/js/home.js" defer="true"></script>
 {% endblock %}

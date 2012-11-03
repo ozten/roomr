@@ -101,6 +101,10 @@ app.get('/widgets/members/:roomId', function (req, res) {
   });
 });
 
+app.get('/widgets/new_room_form', function (req, res) {
+  res.render('widget/new_room_form.html');
+});
+
 // Persona Authentication
 app.post('/auth/login', function (req, res) {
     var suc = function (email) {

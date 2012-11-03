@@ -57,5 +57,24 @@ window.connect = function (audience, roomId) {
 
   });
 
+var newRoomTabLoaded = false;
+$('#new-room-tab').click(function (e) {
+  e.preventDefault();
+
+  if (! newRoomTabLoaded) {
+    newRoomTabLoaded = true;
+    $('#new-room-stub').load('/widgets/new_room_form', function () {
+      $('head').append('<link rel="stylesheet" media="screen,projection,tv" href="/css/home.css" />');
+      initNewRoom();
+      $('.cancel', $('#new-room-stub')).click(function (e) {
+	e.preventDefault();
+        $('#new-room-stub').hide();
+      });
+    });
+  }
+  $('#new-room-stub').show();
+
+});
+
   $('button').bind('click', function (e) {e.preventDefault(); alert('Would eventually be a photo picker and uploader'); });
 };

@@ -13,18 +13,7 @@
   <ul>
     <li></li>
   </ul>
-  <h2>Get a Room!</h2>
-  <form id="new-room" action="">
-    <fieldset>
-      <label for="subject">Subject</label>
-      <input id="subject" name="subject" type="text" value="" />
-    </fieldset>
-    <fieldset>
-      <label for="body">First Post</label>
-      <textarea id="body" name="body"></textarea>
-    </fieldset>
-    <input type="submit" value="Create Room" />
-  </form>
+  {% include "widget/new_room_form.html" %}
 </div>
 {% endblock %}
 {% block pagejs %}
