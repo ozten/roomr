@@ -309,7 +309,15 @@ textarea {
     }
 }
 
-#signinpanel { display: none; }
+#signinpanel {
+  position: static;
+  display: none;
+}
+#signinpanel .persona-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
 
 /* Link body */
 .persona-button{
@@ -555,8 +563,3 @@ textarea {
       margin-bottom: 40px;
     }
 
-#signinpanel .persona-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}

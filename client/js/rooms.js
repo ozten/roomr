@@ -1,4 +1,3 @@
-
 window.connect = function (audience, roomId) {
   var socket = io.connect(audience);
   socket.on('connect', function () {
@@ -78,3 +77,15 @@ $('#new-room-tab').click(function (e) {
 
   $('button').bind('click', function (e) {e.preventDefault(); alert('Would eventually be a photo picker and uploader'); });
 };
+
+var layout = function () {
+  var mH = $('#members').height();
+  var eH = $('#editor').height();
+  var titleH = 50; /* #room-name */
+  var dH = document.body.clientHeight;
+    $('#stream').css('height', (dH - mH - titleH - eH) + 'px');
+};
+$(window).resize(layout);
+$(document).ready(function () {
+  layout();
+});
