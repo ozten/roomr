@@ -113,11 +113,9 @@ exports.getRoom = function (roomId, cb) {
                   members.push(res[i]);
                 }
                 finCb();
-                console.log('BEG retrieving images');
                 Step(function () {
                   var group = this.group();
                   members.forEach (function (member) {
-                    console.log('Going for ' + member.email);
                     libravatar.url({
                       email: member.email,
                       size: 96
@@ -134,7 +132,6 @@ exports.getRoom = function (roomId, cb) {
                     }
                   }
                   console.log(members);
-                console.log('FIN retrieving images');
                 cb(null, {
                     room: room,
                     members: members
@@ -213,4 +210,57 @@ exports.updateProfile = function (email, name, cb) {
              }
            });
       });
+};
+
+exports.addEvent = function (roomId, email, type, value, cb) {
+  cb = cb || function (err) {};
+  withConn(function (err, conn, finCb) {
+    if (err) {
+      return cb(err);
+    }
+    var insertCb = function (err, res) {
+      if (err) {
+        console.error(err);
+        finCb();
+	cb(err);
+      } else {
+        return cb(null, res.insertId);
+        finCb();
+      }
+    };
+	  
+    conn.query('INSERT INTO events (rooms_id, member_email, etype, evalue) ' +
+               'VALUES (?, ?, ?, ?)', [roomId, email, type, value], insertCb);
+  });
+};
+
+exports.syncEvents = function (roomId, email, lastId, cb) {
+  var sel = 'SELECT event_id AS id, member_email AS email, evalue AS message ' + 
+    'FROM events WHERE ' +
+    'rooms_id = ? AND created > ' +
+    '    (select entered from rooms_members where member_email = ? AND rooms_id = ?) ' +
+    'AND event_id > ? ORDER BY event_id';
+  withConn(function (err, conn, finCb) {
+    if (err) {
+      return cb(err);
+    }
+    var selectCb = function (err, res) {
+      if (err) {
+        console.error(err);
+        finCb();
+	cb(err);
+      } else {
+        var sync = { roomId: roomId, events: []};
+        for (var i=0; i < res.length; i++) {
+	  // db column type is blob...
+	  res[i].message = new Buffer(res[i].message, 'utf8').toString();
+	  sync.events.push(res[i]);
+	}
+
+        return cb(null, sync);
+        finCb();
+      }
+    };
+    conn.query(sel, [roomId, email, roomId, lastId], selectCb);
+  });
 };

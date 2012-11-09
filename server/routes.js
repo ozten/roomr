@@ -105,24 +105,25 @@ app.get('/widgets/new_room_form', function (req, res) {
   res.render('widget/new_room_form.html');
 });
 
+var successfulLogin = function (req, res, email) {
+  req.session.email = email;
+  db.getProfile(email, function (err, profile) {
+    if (err) {
+      res.send('Auth okay, unable to talk to DB', 500);
+    } else {
+      res.contentType('json');
+      res.send(JSON.stringify({
+        email: email,
+        name: profile.name
+      }));
+    }
+
+  });
+
+};
 // Persona Authentication
 app.post('/auth/login', function (req, res) {
-    var suc = function (email) {
-        req.session.email = email;
-        db.getProfile(email, function (err, profile) {
-            if (err) {
-                res.send('Auth okay, unable to talk to DB', 500);
-            } else {
-                res.contentType('json');
-                res.send(JSON.stringify({
-                    email: email,
-                    name: profile.name
-                }));
-            }
 
-        });
-
-    };
     var sent = false;
     var fail = function () {
         if (! sent) res.send('FAIL', 401);
@@ -143,7 +144,8 @@ app.post('/auth/login', function (req, res) {
         }
     };
     var d = '';
-    var verifier = https.request(opts, function (res){
+  var originalRes = res;
+    var verifier = https.request(opts, function (res) {
         if (200 === res.statusCode) {
             res.setEncoding('utf8');
             res.on('data', function(data) {
@@ -153,7 +155,7 @@ app.post('/auth/login', function (req, res) {
                 var verified = JSON.parse(d);
                 if ("okay" === verified.status &&
                     !! verified.email) {
-                    suc(verified.email);
+                    successfulLogin(req, originalRes, verified.email);
                 } else {
                     fail();
                 }
@@ -176,6 +178,17 @@ app.post('/auth/logout', function (req, res) {
   console.log('Logging user out');
   req.session.reset();
   res.send('OK');
+});
+
+// Airplane mode
+app.get('/airplane/:email', function (req, res) {
+  if ('http://192.168.186.138:9714' === config.audience) {
+    console.log(req.params.email);
+    var email = req.params.email;
+    successfulLogin(req, res, email);
+  } else {
+    res.send('Not enough frequent flyer miles', 401);
+  }
 });
 
 };// exports

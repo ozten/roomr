@@ -1,9 +1,13 @@
 window.connect = function (audience, roomId) {
   var socket = io.connect(audience);
   socket.on('connect', function () {
-      console.log('CONNECT');
-      socket.emit('subscribe room', {
-        roomId: roomId
+    console.log('CONNECT');
+    socket.emit('subscribe room', {
+      roomId: roomId
+    });
+    socket.emit('sync room', {
+      roomId: roomId,
+      eventId: 0
     });
   });
 
@@ -27,6 +31,21 @@ window.connect = function (audience, roomId) {
   });
 
   console.log(knownEmails);
+
+  var render = function (data) {
+    // TODO unify formats of events and sync events...
+    // POST ROOM
+    var h = '<li>#' + data.id + ' ' + data.email + ' - ' + data.message + '</li>';
+    // SYNC UPDATE
+    if ('POST' === data.type) {
+      h = '<li>#' + data.id + ' ' + data.email + ' - ' + data.value + '</li>';
+    }
+    var revchron = false;
+    if (revchron)
+        $('#stream ol').prepend(h);
+    else
+        $('#stream ol').append(h);
+  };
   socket.on('post message', function (data) {
       if (! knownEmails[currentUser]) {
 	knownEmails[currentUser] = true;
@@ -35,16 +54,23 @@ window.connect = function (audience, roomId) {
         knownEmails[data.email] = true;
 	$('#members').load('/widgets/members/' + roomId);
       }
-      var h = '<li>' + data.email + ' - ' + data.message + '</li>';
-
-      var revchron = false;
-      if (revchron)
-          $('#stream ol').prepend(h);
-      else
-          $('#stream ol').append(h);
-
-      window.scrollTo(0, 1000000);
+    console.log(data);
+    render(data);  
+    window.scrollTo(0, 1000000);
   });
+  socket.on('sync update', function (data) {
+    console.log('SYNC UPDATE', data);
+    for (var i=0; i < data.events.length; i++) {
+      render(data.events[i]);
+      console.log(i, data.events[i]);
+    }
+  });
+
+  $('#editor form textarea').bind('keyup', function (e) {
+    if (e.keyCode === 13) {
+      $('#editor form').trigger('submit');
+    }
+  }).focus();
 
   $('#editor form').bind('submit', function (e) {
       e.preventDefault();
@@ -53,7 +79,6 @@ window.connect = function (audience, roomId) {
         message: $('textarea', this).val()
       });
       $('textarea', this).val('');
-
   });
 
 var newRoomTabLoaded = false;
