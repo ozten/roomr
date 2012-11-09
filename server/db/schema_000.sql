@@ -1,18 +1,18 @@
 CREATE TABLE IF NOT EXISTS rooms (
-    id varchar(256) NOT NULL,
+    id varchar(100) NOT NULL,
     name varchar(100) NOT NULL,
-/*  created timestamp DEFAULT current_timestamp NOT NULL, */}
+/*  created timestamp DEFAULT current_timestamp NOT NULL, */
     PRIMARY KEY(id)
 );
 
 CREATE TABLE IF NOT EXISTS members (
-    email varchar(320) NOT NULL,
+    email varchar(255) NOT NULL,
     name varchar(40),
     PRIMARY KEY(email)
 );
 
 CREATE TABLE IF NOT EXISTS rooms_members (
-    rooms_id varchar(256),
+    rooms_id varchar(255),
     member_email varchar(40),
 /*  entered timestamp DEFAULT current_timestamp NOT NULL, */
     FOREIGN KEY (rooms_id) REFERENCES rooms(id),
