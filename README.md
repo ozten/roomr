@@ -15,3 +15,4 @@ local hacking
   3. npm install
   4. cp server/etc/config.js-dist server/etc/config.js
   5. node server/bin/room
+  6. open http://localhost:9714
