@@ -485,12 +485,13 @@ h1, h2, h3, h4, h5 {
 	margin: 0 auto;
 	display: block;
 	width: 40em;
+	position: relative;
+	padding: 18em 0;
 }
 
 #main {
 	background-color: white;
-	width: 40em;
-	margin: 18em 0;
+	width: 34em;
 	padding: 3em;
 }
 
@@ -508,8 +509,6 @@ h1, h2, h3, h4, h5 {
   text-align: center;
 }
 
-
-
 #signinpanel {
   position: static;
   display: none;
@@ -517,7 +516,7 @@ h1, h2, h3, h4, h5 {
 #signinpanel .persona-button {
   position: absolute;
   top: 20px;
-  right: 20px;
+  right:0px;
 }
 
 
