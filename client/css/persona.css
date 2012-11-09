@@ -475,7 +475,7 @@ textarea {
 
 body {
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-	background-color: black;
+	background: url(../static/background-01.jpg) repeat-x scroll black;
 }
 
 h1, h2, h3, h4, h5 {
