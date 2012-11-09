@@ -473,6 +473,12 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+ul, li, ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
 body {
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	background: url(../static/background-01.jpg) repeat-x scroll black;
@@ -513,10 +519,25 @@ h1, h2, h3, h4, h5 {
   position: static;
   display: none;
 }
-#signinpanel .persona-button {
+#signinpanel .persona-button, ul.top-nav {
   position: absolute;
-  top: 20px;
+  top: 0px;
   right:0px;
+}
+.top-nav li {
+	background-color: black;
+	margin-left: .5em;
+	float: left;
+	padding: 13px 15px;
+	line-height: 1.5em;
+	font-size: .7em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	letter-spacing: 1px;
+}
+.top-nav li a {
+	color: #ffffff;
+	text-decoration: none;
 }
 
 
