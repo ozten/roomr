@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>Rooms</title>
+<link rel="stylesheet" media="screen,projection,tv" href="../css/persona.css" />
+
+<link rel="stylesheet" media="screen,projection,tv" href="../css/room.css" />
+
+</head>
+<body>
+<div id="signinpanel">
+  <div id="current-user"></div>
+  <a id="signin" href="#" class="persona-button signin dark"><span>Sign in with your Email</span></a>
+  <a id="signout" class="persona-button signout dark"><span>Sign Out</span></a>
+</div>
+
+<div id="room">
+    <ol id="members">
+  
+    <li><img src="http://cdn.libravatar.org/avatar/3cb971097efa0ffe8038825de2661a8b?size=96" width="96" alt="always@ozten.com" title="always@ozten.com" /> Always</li>
+  
+    <li><img src="http://cdn.libravatar.org/avatar/a4bab23535de2c5354377cc5a5fa4bbd?size=96" width="96" alt="crystal@mozilla.com" title="crystal@mozilla.com" /> Crystal</li>
+  
+    <li><img src="http://cdn.libravatar.org/avatar/314526c6637800e6ca6c6891738acccd?size=96" width="96" alt="patty.ohara@gmail.com" title="patty.ohara@gmail.com" /> PattyO</li>
+  
+    <li><img src="http://cdn.libravatar.org/avatar/4021c2acfc5b98b6dfe2d0ec26432ce1?size=96" width="96" alt="shout@ozten.com" title="shout@ozten.com" /> Ozten</li>
+  
+  </ol>
+
+  <h1 id="room-name">Web Talk</h1>
+
+  <div id="stream">
+    <ol>
+
+      <!-- li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+      <li>Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam</li>
+      <li> tincidunt congue enim, ut porta lorem lacinia </li>
+      <li>consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit </li>
+      <li>amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum </li>
+      <li>accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.
+
+
+Vivamus fermentum semper porta. Nunc</li>
+      <li> diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci </li>
+      <li>a orci congue vestibulum. Ut</li>
+      <li> dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam</li>
+      <li> at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.</li-->
+    </ol>
+  </div>
+  <div id="editor">
+    <form action="/r/ddda9d68a1f3971d91abc31681ef1efcb23c0e8f7488ff87ef2b67b0a07d1509">
+      <button>Photo</button><textarea></textarea>
+      <input type="submit" value="Send" />
+    </form>
+  </div>
+  <div id="new-room-tab"><a href="">+</a></div>
+  <div id="new-room-stub"></div>
+</div>
+
+<div id="new-user">
+  <h2>Welcome! What's Your name?</h2>
+  <form id="profile">
+    <fieldset>
+      <label for="profilename">Name</label></label>
+      <input type="text" id="profilename" name="profilename" value="" />
+    </fieldset>
+    <input type="submit" value="Save" />
+  </form>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+<script src="https://login.persona.org/include.js"></script>
+<script>
+var currentUser = "crystal@mozilla.com";
+</script>
+<script src="/js/auth.js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/rooms.js"></script>
+<script>
+var roomId = 'ddda9d68a1f3971d91abc31681ef1efcb23c0e8f7488ff87ef2b67b0a07d1509';
+var knownEmails = {};
+
+knownEmails['always@ozten.com'] = true;
+
+knownEmails['crystal@mozilla.com'] = true;
+
+knownEmails['patty.ohara@gmail.com'] = true;
+
+knownEmails['shout@ozten.com'] = true;
+
+$('body').bind('page_loaded_user_ready', function (e) {
+  connect('http://roomr.co', 'ddda9d68a1f3971d91abc31681ef1efcb23c0e8f7488ff87ef2b67b0a07d1509');
+});
+
+</script>
+<script src="/js/home.js" defer="true"></script>
+
+<script>
+
+  
+    $('body').trigger('page_loaded_user_ready');
+  
+
+</script>
+</body>
+</html>
