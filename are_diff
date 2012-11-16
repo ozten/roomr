@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var args = process.argv.slice(2);
+if (2 !== args.length) {
+  console.error('Expected ./are_diff somestring otherstring');
+  process.exit(1);
+}
+
+if (args[0] === args[1]) {
+  console.error('Inputs ' + args[0] + ' are not different!');
+  process.exit(2);
+} else {
+  process.exit(0);
+}
