@@ -14,21 +14,21 @@ $('.persona-button.signin').bind('click', function (e) {
 if (signoutLink) {
   signoutLink.onclick = function(e) {
   */
-$('.persona-button.signout').bind('click', function (e) {
+$('.signout').bind('click', function (e) {
   e.preventDefault();
   $('#signinpanel').hide();
   navigator.id.logout();
 });
 
 if (!! currentUser) {
-    $('#signout').show();
+    $('#signout-button').show();
     $('#authenticated').show();
-    $('#signin').hide();
+    $('#signin-header-button').hide();
     $('#welcome').hide();
 } else {
-    $('#signin').show();
+    $('#signin-header-button').show();
     $('#welcome').show();
-    $('#signout').hide();
+    $('#signout-button').hide();
     $('#authenticated').hide();
 }
 
@@ -47,14 +47,14 @@ navigator.id.watch({
 
         $('body').trigger('auth-login');
 
-        $('#signout').show();
+        $('#signout-button').show();
         if (res.name) {
           $('#authenticated').show();
         } else {
           collectProfile();
         }
 
-        $('#signin').hide();
+        $('#signin-header-button').hide();
         $('#welcome').hide();
         $('#signinpanel').show();
 
@@ -77,9 +77,9 @@ navigator.id.watch({
       url: '/auth/logout', // This is a URL on your website.
       success: function(res, status, xhr) {
         $('body').trigger('auth-logout');
-        $('#signin').show();
+        $('#signin-header-button').show();
         $('#welcome').show();
-        $('#signout').hide();
+        $('#signout-button').hide();
         $('#authenticated').hide();
         $('#new-user').hide();
         $('#signinpanel').show();

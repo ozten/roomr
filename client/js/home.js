@@ -1,7 +1,6 @@
 function initNewRoom () {
   $('#new-room').bind('submit', function (e) {
     e.preventDefault();
-    alert('submit handler');
     var subj = $('#subject').val(),
     body = $('#body').val();
 

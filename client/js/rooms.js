@@ -82,7 +82,7 @@ window.connect = function (audience, roomId) {
   });
 
 var newRoomTabLoaded = false;
-$('#new-room-tab').click(function (e) {
+$('#new-room-tab, #new-room-button').click(function (e) {
   e.preventDefault();
 
   if (! newRoomTabLoaded) {
@@ -108,7 +108,10 @@ var layout = function () {
   var eH = $('#editor').height();
   var titleH = 50; /* #room-name */
   var dH = document.body.clientHeight;
+  // TODO A/B testing
+  if (true == false) {
     $('#stream').css('height', (dH - mH - titleH - eH) + 'px');
+  }
 };
 $(window).resize(layout);
 $(document).ready(function () {

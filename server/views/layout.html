@@ -10,11 +10,13 @@
   <div id="current-user"></div>
 <!--  ONLY SHOW UL FOR AUTH'D USERS-->
   <ul class="top-nav">
+  <li><a id="signin-header-button" href="#" class="persona-button signin dark"><span>Sign in with Persona</span></a></li>
   <li><a id="new-room-button" href="#"><span>+ New Room</span></a></li>
-  <li><a id="signout-button" href="#"><span>Sign Out</span></a></li>
+  <li><a id="signout-button" class="signout" href="#"><span>Sign Out</span></a></li>
   </ul>
 </div>
 <div id="main">
+<div id="new-room-stub"></div>
 {% block body %}
 Hello World
 {% endblock %}
