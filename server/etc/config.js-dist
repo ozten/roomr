@@ -10,4 +10,4 @@ exports.mysqlHost = "localhost";
 exports.mysqlPort = 3306;
 exports.mysqlUser = "user";
 exports.mysqlPassword = "password";
-exports.mysqlDBName = "dev_rooms";
+exports.mysqlDBName = "dev_roomr";
