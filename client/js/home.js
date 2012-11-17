@@ -1,24 +1,16 @@
 function initNewRoom () {
   $('#new-room').bind('submit', function (e) {
     e.preventDefault();
-    var subj = $('#subject').val(),
-    body = $('#body').val();
+    var subj = $('#subject').val();
 
     $.ajax({
       type: 'POST',
       url: '/create',
       data: {
-	subject: subj,
-	body: body
+	subject: subj
       },
       success: function (data, status, xhr) {
-	body += "\n\nJoin the conversation http://roomr.co/r/" + data + "\n\n";
-
-	var mail = "mailto:create@rooms.com?";
-	mail += "subject=" + encodeURIComponent(subj);
-	mail += "&body=" + encodeURIComponent(body);
-	window.location.href = mail;
-
+        window.location.href = '/r/' + data;
       },
       error: function (xhr, status, err) {
 	alert('Unable to create room. Try again later');

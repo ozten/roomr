@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{# supress new room button, since this page is all about it #}
+{% block navnewroom %}{% endblock %}
 {% block pagecss %}
 <link rel="stylesheet" media="screen,projection,tv" href="/css/home.css" />
 {% endblock %}
@@ -18,4 +20,7 @@
 {% endblock %}
 {% block pagejs %}
 <script src="/js/home.js"></script>
+<script>
+initNewRoom();
+</script>
 {% endblock %}

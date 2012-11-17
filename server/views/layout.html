@@ -11,7 +11,7 @@
 <!--  ONLY SHOW UL FOR AUTH'D USERS-->
   <ul class="top-nav">
   <li><a id="signin-header-button" href="#" class="persona-button signin dark"><span>Sign in with Persona</span></a></li>
-  <li><a id="new-room-button" href="#"><span>+ New Room</span></a></li>
+  {% block navnewroom %}<li><a id="new-room-button" href="#"><span>+ New Room</span></a></li>{% endblock %}
   <li><a id="signout-button" class="signout" href="#"><span>Sign Out</span></a></li>
   </ul>
 </div>

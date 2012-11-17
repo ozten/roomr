@@ -56,7 +56,7 @@ window.connect = function (audience, roomId) {
       }
     console.log(data);
     render(data);  
-    window.scrollTo(0, 1000000);
+    //window.scrollTo(0, 1000000);
   });
   socket.on('sync update', function (data) {
     console.log('SYNC UPDATE', data);

@@ -41,7 +41,6 @@ app.get('/', function (req, res) {
 
 app.post('/create', function (req, res) {
   var subject = req.body.subject;
-  var body = req.body.body;
   db.createRoom(req.session.email, subject, function (err, roomId) {
     if (err) {
         res.send(err, 500);
