@@ -493,12 +493,13 @@ h1, h2, h3, h4, h5 {
 	width: 40em;
 	position: relative;
 	padding: 18em 0;
+	background: url(../static/logo-roomr.png) no-repeat 0 12.3em;
 }
 
 #main {
-	background-color: white;
 	width: 34em;
 	padding: 3em;
+	background-color: white;
 }
 
 /* widget/new_user.html */
