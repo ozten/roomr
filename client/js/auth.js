@@ -24,11 +24,13 @@ if (!! currentUser) {
     $('#signout-button').show();
     $('#authenticated').show();
     $('#signin-header-button').hide();
+    $('#new-room-button').show();
     $('#welcome').hide();
 } else {
     $('#signin-header-button').show();
     $('#welcome').show();
     $('#signout-button').hide();
+    $('#new-room-button').hide();
     $('#authenticated').hide();
 }
 
@@ -90,7 +92,7 @@ navigator.id.watch({
         $('#signinpanel').show();
          alert("logout failure" + res); }
     });
-  }
+  } 
 });
 
 function collectProfile () {
