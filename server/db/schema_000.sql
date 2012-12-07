@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS rooms_members (
 /*
 CREATE TABLE IF NOT EXISTS events (
     event_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    rooms_id varchar(256),
-    member_email varchar(40),
+    rooms_id varchar(100),
+    member_email varchar(255),
     created TIMESTAMP DEFAULT current_timestamp,
     etype varchar(8) NOT NULL,
     evalue blob,
