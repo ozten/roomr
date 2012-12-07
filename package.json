@@ -15,5 +15,10 @@
     "socket.io": "0.9.10",
     "step": "0.0.5"
   },
+
+  "devDependencies": {
+    "awsbox": "0.3.3",
+    "vows": "0.7.0"
+  },
   "private": true
 }

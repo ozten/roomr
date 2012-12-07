@@ -18,8 +18,11 @@ local hacking
         $ mysql -u root -ppassword
         mysql> create database dev_roomr
         mysql> quit
-        $ mysql -u root -ppassword dev_roomr < server/db/schema_000.sql
-        $ mysql -u root -ppassword dev_roomr < server/db/schema_001.sql
+
+        $ foreach schema (`ls -1 server/db/schema`)
+        mysql -u root -ppassword dev_roomr < $schema
+        end
+
 
 5. `cp server/etc/config.js-dist server/etc/config.js`
 

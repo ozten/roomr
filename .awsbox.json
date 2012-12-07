@@ -1,0 +1,18 @@
+{
+  "processes": [
+    "server/bin/room"
+  ],
+
+  "hooks": {
+    "postcreate": "scripts/awsbox_remote/post_create.sh", 
+    "postdeploy": "scripts/awsbox_remote/post_deploy.sh"
+  },
+
+  "local_hooks": {
+    "postcreate": "scripts/awsbox_local/post_create.js"
+  },
+
+  "packages": [
+    "mysql-server"
+  ]
+}
