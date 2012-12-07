@@ -1,4 +1,4 @@
-exports.audience = 'http://localhost:9714';
+exports.audience = 'http://localhost:' + (process.env['PORT'] || 9714);
 
 // session
 exports.cookie_name = 'session_state';

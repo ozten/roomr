@@ -1,5 +1,5 @@
 {
-  "name": "ozten",
+  "name": "roomr",
   "version": "0.0.0",
   "description": "Experimental personal space for niche social networking",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "client-sessions": "0.0.5",
-    "express": "2.5.11",
+    "express": "3.0.3",
     "libravatar": "2.0.0",
     "mysql": "2.0.0-alpha3",
     "nunjucks": "git://github.com/jlongster/nunjucks.git",

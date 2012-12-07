@@ -10,19 +10,19 @@ app.use(function (req, res, next) {
   needsProfile = false,
   cont = function (cu) {
     console.log(cu);
-    res.local('currentUser', cu);
-    res.local('JSON', JSON);
+    res.locals.currentUser = cu;
+    res.locals.JSON = JSON;
     next();
   };
 
   if (req.session.email) {
     cu = '"' + req.session.email + '"';
     db.getProfile(req.session.email, function (err, profile) {
-      res.local('profile', profile);
+      res.locals.profile = profile;
       cont(cu);
     });
   } else {
-    res.local('profile', null);
+    res.locals.profile = null;
     cont(cu);
   }
 });
@@ -191,3 +191,4 @@ app.get('/airplane/:email', function (req, res) {
 });
 
 };// exports
+

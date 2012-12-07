@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 
-var app = require('express').createServer(),
+var
 clientSessions = require('client-sessions'),
 config = require('../etc/config'),
+http = require('http'),
 express = require('express'),
 nunjucks = require('nunjucks'),
 path = require('path'),
 routes = require('../routes'),
 sockets = require('../sockets');
+
+var app = module.exports = express();
 
 var views = path.join(__dirname, '../views');
 env = new nunjucks.Environment(new nunjucks.FileSystemLoader(views));
@@ -16,6 +19,7 @@ env.express(app);
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.logger());
+app.set('port', process.env['PORT'] || 9714);
 
 app.use(clientSessions({
   cookieName: config.cookie_name,
@@ -23,9 +27,15 @@ app.use(clientSessions({
   duration:   config.duration
 }));
 
+var server = http.createServer(app);
+
 routes.setup(app);
-sockets.setup(app);
+sockets.setup(server);
 
 app.use(express.static(path.join(__dirname, '../../client')));
 
-app.listen(9714);
+if (!module.parent) {
+  server.listen(app.get('port'), function() {
+    console.log("roomr has it on port " + app.get('port'));
+  });
+}
