@@ -7,14 +7,79 @@ CSS common to both variations go here
 
 /*********** STRUCTURE **********/
 body {
-    margin: 0px;
-    padding: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-family: sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
 }
-#room {
-    padding-left: 20px;
-    padding-right: 20px;
+
+#room-name {
+  text-transform: uppercase;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 0 0 30px 0;
 }
 
-/***********   STYLE   **********/
+#editor {
+  padding: 0 0 50px 0;
+}
 
+#editor textarea {
+  width: 540px;
+  height: 25px;
+  min-height: 25px;
+  padding: 4px;
+  outline: none;
+  background-color: #eee;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 
+.message {
+  padding: 0px;
+  margin-bottom: 30px;
+  color: black;
+  position: relative;
+}
+
+.message .avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.message .content {
+  margin-left: 75px;
+}
+
+/* 
+ * seems better to transform to uppercase than lowercase because numerals
+ * may only come in uppercase sorts.
+ */
+
+.message .name {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-variant: small-caps;
+}
+
+.message .date {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-variant: small-caps;
+  color: #aaa;
+}
+
+#faces { 
+  position: absolute;
+  top: 0;
+  right: -160;
+}
+
+#faces li {
+  margin-bottom: 20px;
+}

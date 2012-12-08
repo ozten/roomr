@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>{% block title %}Rooms{% endblock %}</title>
+<link rel="stylesheet" media="screen,projection,tv" href="/css/reset.css" />
 <link rel="stylesheet" media="screen,projection,tv" href="/css/persona.css" />
 {% block pagecss %}{% endblock %}
 </head>
@@ -15,6 +16,7 @@
   <li id="signout-button"><a class="signout" href="#"><span>Sign Out</span></a></li>
   </ul>
 </div>
+{% include "widget/templates.html" %}
 <div id="main">
 <div id="new-room-stub"></div>
 {% block body %}
@@ -25,6 +27,9 @@ Hello World
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+<script src="/js/libs/underscore-min.1.4.3.js"></script>
+<script src="/js/libs/md5.js"></script>
+<script src="/js/libs/jquery.timeago.js"></script>
 <script src="https://login.persona.org/include.js"></script>
 <script>
 var currentUser = {{ currentUser }};

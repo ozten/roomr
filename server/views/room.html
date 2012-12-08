@@ -7,8 +7,7 @@
 {% block body %}
 
 <div id="room">
-  {% include "widget/members.html" %}
-  <h1 id="room-name">{{ room.name }}</h1>
+  <div id="room-name">{{ room.name }}</div>
   <div id="editor">
     <form action="/r/{{room.id}}">
       <textarea placeholder="What's new?"></textarea>
@@ -35,6 +34,16 @@ Vivamus fermentum semper porta. Nunc</li>
   </div>
   <!-- div id="new-room-tab"><a href="">+</a></div -->
 </div>
+
+
+<div id="faces">
+ <ul>
+  <li><img src="http://cdn.libravatar.org/avatar/a4bab23535de2c5354377cc5a5fa4bbd?size=120"/></li>
+  <li><img src="http://cdn.libravatar.org/avatar/4021c2acfc5b98b6dfe2d0ec26432ce1?size=120"/></li>
+  <li><img src="http://cdn.libravatar.org/avatar/e1330165d3cddafbfda2f5a11a6d056c?size=120"/></li>
+ </ul>
+</div>
+
 {% endblock %}
 {% block pagejs %}
 <script src="/socket.io/socket.io.js"></script>

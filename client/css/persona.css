@@ -490,16 +490,21 @@ h1, h2, h3, h4, h5 {
 #wrapper {
 	margin: 0 auto;
 	display: block;
-	width: 40em;
+	width: 800px;
 	position: relative;
 	padding: 18em 0;
 	background: url(../static/logo-roomr.png) no-repeat 0 12.3em;
 }
 
+#content {
+}
+
 #main {
-	width: 34em;
-	padding: 3em;
-	background-color: white;
+  position: absolute;
+  top: 264px;
+  max-width: 620px;
+  padding: 40px;
+  background-color: white;
 }
 
 /* widget/new_user.html */
@@ -523,7 +528,7 @@ h1, h2, h3, h4, h5 {
 #signinpanel .persona-button, ul.top-nav {
   position: absolute;
   top: 0px;
-  right:0px;
+  right:-60px;
 }
 .top-nav li {
 	background-color: black;

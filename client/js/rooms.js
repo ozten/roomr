@@ -1,3 +1,4 @@
+
 window.connect = function (audience, roomId) {
   var socket = io.connect(audience);
   socket.on('connect', function () {
@@ -32,14 +33,29 @@ window.connect = function (audience, roomId) {
 
   console.log(knownEmails);
 
-  var render = function (data) {
+  // underscore.js template interpolation settings; for replacing template vars
+  _.templateSettings = {
+    interpolate: /\$\{(.+?)\}/g
+  };
+
+  var messageTemplate = _.template($("#message_template").html());
+
+  var renderMessage = function (data) {
     // TODO unify formats of events and sync events...
     // POST ROOM
-    var h = '<li>#' + data.id + ' ' + data.email + ' - ' + data.message + '</li>';
     // SYNC UPDATE
     if ('POST' === data.type) {
-      h = '<li>#' + data.id + ' ' + data.email + ' - ' + data.value + '</li>';
+      data.message = data.value;
     }
+
+    // placeholders while i block out the css
+    data.name = "Author's Name";
+    data.avatar40 = data.avatar40 || "http://cdn.libravatar.org/nobody/40.png";
+    data.date = (new Date()).toISOString();
+
+    var h = messageTemplate(data);
+    $("date.timeago").timeago();
+
     var revchron = false;
     if (revchron)
         $('#stream ol').prepend(h);
@@ -55,13 +71,13 @@ window.connect = function (audience, roomId) {
 	$('#members').load('/widgets/members/' + roomId);
       }
     console.log(data);
-    render(data);  
+    renderMessage(data);  
     //window.scrollTo(0, 1000000);
   });
   socket.on('sync update', function (data) {
     console.log('SYNC UPDATE', data);
     for (var i=0; i < data.events.length; i++) {
-      render(data.events[i]);
+      renderMessage(data.events[i]);
       console.log(i, data.events[i]);
     }
   });
