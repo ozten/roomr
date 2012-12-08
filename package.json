@@ -4,7 +4,7 @@
   "description": "Experimental personal space for niche social networking",
   "scripts": {
     "start": "server/bin/room",
-    "test": "vows tests/*.js"
+    "test": "vows tests/*.js -spec"
   },
   "dependencies": {
     "client-sessions": "0.0.5",
