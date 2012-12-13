@@ -1,4 +1,6 @@
-[![build status](https://secure.travis-ci.org/ozten/roomr.png)](http://travis-ci.org/ozten/roomr)
+- [![build status](https://secure.travis-ci.org/ozten/roomr.png)](http://travis-ci.org/ozten/roomr) [ozten](https://github.com/ozten/roomr)
+
+- [![build status](https://secure.travis-ci.org/jedp/roomr.png)](http://travis-ci.org/jedp/roomr) [jedp](https://github.com/jedp/roomr) fork
 
 rooms
 =====
@@ -63,6 +65,5 @@ You will have to implement them manually by ssh'ing to `app@your_ip`, invoking
 If that seems too laborious, just delete the awsbox instance and create another :)
 
 If you forget your awsbox ip address, you can get it from `git remote -v`.
-
 
 

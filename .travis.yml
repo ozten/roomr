@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "0.8"
+services:
+  - mysql
+before_script:
+  - mysql -u root -e "create database roomr;"
+  - mysql -u root -e "create user 'roomr'@'localhost';"
+  - mysql -u root -e "grant all on roomr.* to 'roomr'@'localhost';"
+  - mysql -u root roomr < ./server/db/schema_000.sql;
+  - mysql -u root roomr < ./server/db/schema_001.sql;
+  - ./scripts/make_config.js
+
