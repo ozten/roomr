@@ -1,3 +1,7 @@
+- [![build status](https://secure.travis-ci.org/ozten/roomr.png)](http://travis-ci.org/ozten/roomr) [ozten](https://github.com/ozten/roomr)
+
+- [![build status](https://secure.travis-ci.org/jedp/roomr.png)](http://travis-ci.org/jedp/roomr) [jedp](https://github.com/jedp/roomr) fork
+
 rooms
 =====
 

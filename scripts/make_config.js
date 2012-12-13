@@ -32,10 +32,9 @@ if (module.parent) {
 } else {
   // this will exist on an awsbox deployment
   var awsbox_config = path.join(__dirname, '../../config.json');
+  var public_url = '127.0.0.1';
   if (fs.existsSync(awsbox_config)) {
-    var public_url = JSON.parse(fs.readFileSync(awsbox_config).toString()).public_url;
-    fs.writeFileSync(path.join(__dirname, SERVER_ETC, 'config.js'), makeConfig(public_url), 'ascii');
-  } else {
-    console.log("Not found: " + awsbox_json);
-  }
+    public_url = JSON.parse(fs.readFileSync(awsbox_config).toString()).public_url;
+  } 
+  fs.writeFileSync(path.join(__dirname, SERVER_ETC, 'config.js'), makeConfig(public_url), 'ascii');
 }
