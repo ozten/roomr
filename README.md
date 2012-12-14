@@ -1,3 +1,5 @@
+[![build status](https://secure.travis-ci.org/ozten/roomr.png)](http://travis-ci.org/ozten/roomr)
+
 rooms
 =====
 
