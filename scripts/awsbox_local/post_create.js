@@ -19,13 +19,14 @@ var host = process.env.AWS_IP_ADDRESS;
 var user = 'app@'+host;
 var schema_path = path.join(__dirname, '../../server/db');
 var schemas = fs.readdirSync(schema_path);
-var cmd;
 
 // apply schema updates in order
 
-schemas
+schemas = schemas
   .filter(function(name) { return /\.sql$/.test(name) })
   .sort();
+
+console.log("will apply schemas: " + schemas);
 
 var i = 0;
 var count = schemas.length;
@@ -39,12 +40,19 @@ function applyNextSchema(callback) {
   console.log(user + " applying " + schema);
 
   cmd = 'scp ' + schema + ' ' + user + ':/tmp';
+  console.log("will execute: " + cmd);
   child_process.exec(cmd, function(err) {
     if (err) return callback(err);
 
     cmd = 'ssh ' + user + ' "mysql -u roomr roomr < /tmp/' + schema_name + '"';
     child_process.exec(cmd , function(err) {
-      if (err) return callback(err);
+      if (err) {
+        if (/Duplicate column name/.test(err.message)) {
+          // This error is ignoreable
+        } else {
+          return callback(err);
+        }
+      }
 
       if (i < count) {
         return applyNextSchema(callback);
