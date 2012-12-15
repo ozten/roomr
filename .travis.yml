@@ -5,11 +5,10 @@ services:
   - mysql
 before_script:
   - mysql -u root -e "create database roomr;"
-  - mysql -u root -e "create user 'roomr'@'localhost' identified by 'roomr' with grant option;"
+  - mysql -u root -e "create user 'roomr'@'localhost';"
   - mysql -u root -e "grant all privileges on *.* to 'roomr'@'localhost';"
   - mysql -u root roomr < ./server/db/schema_000.sql;
   - mysql -u root roomr < ./server/db/schema_001.sql;
   - mysql -u root roomr < ./server/db/schema_002.sql;
-  - mysql -u root -e "use mysql;\nupdate user set password=PASSWORD('roomr') where user='roomr';\nflush privileges;"
   - ./scripts/make_config.js
 

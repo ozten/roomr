@@ -16,6 +16,12 @@ TEST_EMAIL = "oxfordcommagirl@roomr.gov",
 TEST_NAME = "OCG",
 TEST_ROOM = "Our Terrible Ideas";
 
+var mysqlExec = "mysql -u roomr -proomr";
+if (process.env['TRAVIS']) {
+  // travis does not like passwords on mysql
+  mysqlExec = "mysql -u roomr";
+}
+
 /**
  * If the person running the test doesn't have a config yet, create
  * a default config.
@@ -36,7 +42,7 @@ suite.addBatch({
     // In case last test didn't clean up properly, try to destroy the database
     topic: function() {
       var cb = this.callback;
-      child_process.exec("echo 'drop database test_roomr' | mysql -u roomr -proomr", function(err) {
+      child_process.exec("echo 'drop database test_roomr' | " + mysqlExec, function(err) {
         if (!err || /database doesn't exist/.test(err.message)) {
           return cb(null);
         } 
@@ -64,7 +70,7 @@ suite.addBatch({
       function applyNextSchema() {
         var schema = schemas[i];
         var schemaPath = path.join(__dirname, '../server/db', schema);
-        child_process.exec("mysql -u roomr -proomr test_roomr < " + schemaPath, function(err) {
+        child_process.exec(mysqlExec + " test_roomr < " + schemaPath, function(err) {
           assert(err === null);
           i += 1;
 
@@ -76,7 +82,7 @@ suite.addBatch({
         });
       } 
 
-      child_process.exec("echo 'create database test_roomr' | mysql -u roomr -proomr", applyNextSchema);
+      child_process.exec("echo 'create database test_roomr' | " + mysqlExec, applyNextSchema);
     },
 
     "ok": function(err) {
@@ -112,7 +118,7 @@ suite.addBatch({
 suite.addBatch({
   "Drop test database": {
     topic: function() {
-      child_process.exec("echo 'drop database test_roomr' | mysql -u roomr -proomr", this.callback);
+      child_process.exec("echo 'drop database test_roomr' | " + mysqlExec, this.callback);
     },
 
     "ok": function(err) {

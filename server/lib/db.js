@@ -13,9 +13,18 @@ var config = require('../etc/config'),
  * do this sort of thing, but it's cheap and it works.
  */
 var mysqlDBName = config.mysqlDBName;
+var mysqlPassword = config.mysqlPassword;
 if (process.env['ROOMR_TEST']) {
   mysqlDBName = process.env['ROOMR_TEST_DB_NAME'];
   console.log("Notice: ROOMR_TEST mode; will use database:", mysqlDBName);
+}
+
+/**
+ * When running with travis-ci, no passwords
+ */
+if (process.env['TRAVIS']) {
+  mysqlPassword = null;
+  console.log("Notice: TRAVIS doesn't like passwords; setting db password to null");
 }
 
 var withConn = function (cb) {
@@ -23,7 +32,7 @@ var withConn = function (cb) {
     host     : config.mysqlHost,
     port     : config.mysqlPort,
     user     : config.mysqlUser,
-    password : config.mysqlPassword,
+    password : mysqlPassword,
     database : mysqlDBName
   });
   console.log('opening conn to ' + mysqlDBName);
