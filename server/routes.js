@@ -1,5 +1,6 @@
 var config = require('./etc/config'),
     db = require('./lib/db'),
+    utils = require('./lib/utils'),
     https = require('https'),
     qs = require('querystring');
 
@@ -45,13 +46,13 @@ app.post('/create', function (req, res) {
     if (err) {
         res.send(err, 500);
     } else {
-        res.send(roomId);
+        res.send(utils.roomIdToUrl(roomId));
     }
   });
 });
 
-app.get('/r/:roomId', function (req, res) {
-  var roomId = req.params.roomId;
+app.get('/r/:roomUrl', function (req, res) {
+  var roomId = utils.roomUrlToId(req.params.roomUrl);
   console.log(req.session);
   if (! req.session.email) {
     return res.render('unauthenticated.html');
@@ -132,6 +133,7 @@ app.post('/auth/login', function (req, res) {
         assertion: req.body.assertion,
         audience: config.audience
     });
+    console.log(postBody);
     var opts = {
         host: 'verifier.login.persona.org',
         port: 443,
@@ -142,6 +144,7 @@ app.post('/auth/login', function (req, res) {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     };
+    console.log(opts);
     var d = '';
   var originalRes = res;
     var verifier = https.request(opts, function (res) {
@@ -152,6 +155,7 @@ app.post('/auth/login', function (req, res) {
               });
             res.on('end', function (a, b, c) {
                 var verified = JSON.parse(d);
+                console.log("verifier says " + d);
                 if ("okay" === verified.status &&
                     !! verified.email) {
                     successfulLogin(req, originalRes, verified.email);
