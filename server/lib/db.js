@@ -1,8 +1,22 @@
 var config = require('../etc/config'),
-    crypto = require('crypto'),
+    utils = require('./utils'),
     libravatar = require('libravatar'),
     mysql = require('mysql'),
     Step = require('step');
+
+/**
+ * When running tests, the db_vows.js test will use the database test_roomr,
+ * Which it will create and destroy each time tests are run.
+ *
+ * The testing state is written into the process environment by db_vows.js
+ * before including this module.  I'm not sure this is the "right" way to 
+ * do this sort of thing, but it's cheap and it works.
+ */
+var mysqlDBName = config.mysqlDBName;
+if (process.env['ROOMR_TEST']) {
+  mysqlDBName = process.env['ROOMR_TEST_DB_NAME'];
+  console.log("Notice: ROOMR_TEST mode; will use database:", mysqlDBName);
+}
 
 var withConn = function (cb) {
   var conn = mysql.createConnection({
@@ -10,9 +24,9 @@ var withConn = function (cb) {
     port     : config.mysqlPort,
     user     : config.mysqlUser,
     password : config.mysqlPassword,
-    database : config.mysqlDBName
+    database : mysqlDBName
   });
-  console.log('opening conn');
+  console.log('opening conn to ' + mysqlDBName);
   conn.connect(function (err) {
     if (err) {
       var msg = 'Unable to connect to database!!!';
@@ -21,7 +35,6 @@ var withConn = function (cb) {
       conn.end();
     } else {
       cb(null, conn, function () {
-        console.log('closing conn');
         conn.end();
       });
 
@@ -35,24 +48,20 @@ exports.createRoom = function (email, roomName, cb) {
           return cb(err);
         }
 
-        hash = crypto.createHash('sha256');
-        hash.update(email);
-        hash.update(roomName);
-        var id = hash.digest('hex');
-
-        conn.query('INSERT INTO rooms (id, name) ' +
-                   'VALUES (?, ?)', [id, roomName],
+        conn.query('INSERT INTO rooms (name) ' +
+                   'VALUES (?)', [roomName],
            function (err, res) {
+             var roomId = res.insertId;
              if (err) {
-              console.error('Error createing account:' + err);
+              console.error('Error creating account:' + err);
               finCb();
               return cb (err);
              }
-             exports.addMemberToRoom(email, id, function (err) {
+             exports.addMemberToRoom(email, roomId, function (err) {
                 if (err) {
                     return cb(err);
                 }
-                return cb(null, id);
+                return cb(null, roomId);
              }, conn, finCb);
 
            });

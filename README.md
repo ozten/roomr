@@ -17,10 +17,12 @@ local hacking
 1. `git clone` this repo
 2. `cd` into that directory
 3. `npm install`
-4. Setup a database
+4. Setup a database, granting roomr permissions to create and destroy tables
 
         $ mysql -u root -ppassword
-        mysql> create database dev_roomr
+        mysql> create user 'roomr'@'localhost' identified by 'roomr';
+        mysql> grant all on *.* to 'roomr'@'localhost';
+        mysql> create database dev_roomr;
         mysql> quit
 
         $ foreach schema (`ls -1 server/db`)
@@ -43,16 +45,16 @@ awsbox hacking
 3. `npm install`
 4. Get your aws creds into your environment:
 
-    export AWS_ID=your_aws_id
-    export AWS_SECRET=your_aws_secret
+        export AWS_ID=your_aws_id
+        export AWS_SECRET=your_aws_secret
 
 5. Deploy!
 
-    node_modules/.bin/awsbox create -n roomr
+        node_modules/.bin/awsbox create -n roomr
 
 6. Push code to start server:
 
-    git push roomr master
+        git push roomr master
 
 Now hack and make branches and be happy.  When you want to test something, `git
 push` it to `roomr` and the server will be updated with your changes.
