@@ -218,14 +218,15 @@ exports.updateProfile = function (email, name, cb) {
         conn.query('INSERT INTO members (email, name) ' +
                    'VALUES (?, ?)', [email, name],
            function (err, res) {
+             finCb();
              if (err) {
+                if (/Duplicate entry .*? for key 'PRIMARY'/.test(err.message)) {
+                    return updateInstead(email, name, cb);
+                }
                 console.error(err);
-                finCb();
-                return updateInstead(email, name, cb);
-             } else {
-                finCb();
-                return cb(null);
+                return cb(err);
              }
+             return cb(null);
            });
       });
 };

@@ -13,7 +13,8 @@ fs = require('fs'),
 path = require('path'),
 child_process = require('child_process'),
 TEST_EMAIL = "oxfordcommagirl@roomr.gov",
-TEST_NAME = "OCG",
+TEST_FIRST_NAME = "OCG",
+TEST_SECOND_NAME = "Juanita",
 TEST_ROOM = "Our Terrible Ideas",
 TEST_OTHER_EMAIL = "biggles@spanishinquisition.org",
 TEST_OTHER_NAME = "Cardinal Biggles";
@@ -96,7 +97,7 @@ suite.addBatch({
 suite.addBatch({
   "We can create": {
     topic: function() {
-      db.updateProfile(TEST_EMAIL, TEST_NAME, this.callback);
+      db.updateProfile(TEST_EMAIL, TEST_FIRST_NAME, this.callback);
     },
 
     "a new user": function(err, other) {
@@ -111,7 +112,31 @@ suite.addBatch({
       "her profile": function(err, profile) {
         assert(err === null);
         assert(profile.email === TEST_EMAIL);
-        assert(profile.name === TEST_NAME);
+        assert(profile.name === TEST_FIRST_NAME);
+      }
+    }
+  }
+});
+
+suite.addBatch({
+  "Our user can update": {
+    topic: function() {
+      db.updateProfile(TEST_EMAIL, TEST_SECOND_NAME, this.callback);
+    },
+
+    "her profile": function(err) {
+      assert(!err);
+    },
+
+    "which we see": {
+      topic: function() {
+        db.getProfile(TEST_EMAIL, this.callback);
+      },
+
+      "when we retrive it": function(err, profile) {
+        assert(err === null);
+        assert(profile.email === TEST_EMAIL);
+        assert(profile.name === TEST_SECOND_NAME);
       }
     }
   }
