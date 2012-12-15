@@ -14,7 +14,9 @@ path = require('path'),
 child_process = require('child_process'),
 TEST_EMAIL = "oxfordcommagirl@roomr.gov",
 TEST_NAME = "OCG",
-TEST_ROOM = "Our Terrible Ideas";
+TEST_ROOM = "Our Terrible Ideas",
+TEST_OTHER_EMAIL = "biggles@spanishinquisition.org",
+TEST_OTHER_NAME = "Cardinal Biggles";
 
 var mysqlExec = "mysql -u roomr -proomr";
 if (process.env['TRAVIS']) {
@@ -115,6 +117,77 @@ suite.addBatch({
   }
 });
 
+suite.addBatch({
+  "Our user can create": {
+    topic: function() {
+      db.createRoom("oxfordcommagirl@roomr.gov", "Our Terrible Mistakes", this.callback);
+    }, 
+
+    "a new room": function(err, roomId) {
+      assert(err === null);
+      assert(typeof roomId === 'number');
+    }, 
+
+    "which has": {
+      topic: function(roomId) {
+        db.getRoom(roomId, this.callback);
+      },
+
+      "the name she set for it": function(err, details) {
+        assert(!err);
+        assert(details.room.name === "Our Terrible Mistakes");
+      }, 
+
+      "her as the only member": function(err, details) {
+        assert(!err);
+        assert(details.members.length === 1);
+        assert(details.members[0].email === "oxfordcommagirl@roomr.gov");
+      }
+    }
+  }
+});
+
+suite.addBatch({
+  "We can create": {
+    topic: function() {
+      db.updateProfile(TEST_OTHER_EMAIL, TEST_OTHER_NAME, this.callback);
+    },
+
+    "another user": function(err, other) {
+      assert(err === null);
+    },
+
+    "and add him to the room": {
+      topic: function() {
+        // We know the roomid is 1 because it's the only room
+        db.addMemberToRoom(TEST_OTHER_EMAIL, 1, this.callback);
+      },
+
+      "without error": function(err) {
+        assert(!err);
+      },
+
+      "after which": {
+        topic: function() {
+          db.getRoom(1, this.callback);
+        },
+
+        "they are both members": function(err, details) {
+          assert(!err);
+          assert(details.members.length === 2);
+
+          // make sure both emails got recorded
+          var emails = [];
+          details.members.forEach(function(member) {
+            emails.push(member.email);
+          });
+          assert(emails.indexOf(TEST_EMAIL) > -1);
+          assert(emails.indexOf(TEST_OTHER_EMAIL) > -1);
+        }
+      }
+    }
+  }
+});
 suite.addBatch({
   "Drop test database": {
     topic: function() {
