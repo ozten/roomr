@@ -35,7 +35,7 @@ var withConn = function (cb) {
     password : mysqlPassword,
     database : mysqlDBName
   });
-  console.log('opening conn to ' + mysqlDBName);
+
   conn.connect(function (err) {
     if (err) {
       var msg = 'Unable to connect to database!!!';
@@ -137,8 +137,6 @@ exports.getRoom = function (roomId, cb) {
                     }, group());
                   });
                 }, function (err, urls) {
-                  console.log('Step 2 err=' + err);
-                  console.log(urls);
                   for (var i=0; i < members.length; i++) {
                     if (i < urls.length) {
                       members[i].avatar = urls[i];
@@ -146,7 +144,6 @@ exports.getRoom = function (roomId, cb) {
                       console.error('out of range');
                     }
                   }
-                  console.log(members);
                 cb(null, {
                     room: room,
                     members: members
