@@ -11,3 +11,10 @@ exports.mysqlPort = 3306;
 exports.mysqlUser = "user";
 exports.mysqlPassword = "password";
 exports.mysqlDBName = "dev_roomr";
+
+// Log Level
+exports.DEBUG = 3;
+exports.INFO  = 2;
+exports.WARN  = 1;
+exports.DEBUG = 0;
+exports.logLevel = 1;

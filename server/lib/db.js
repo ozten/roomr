@@ -66,12 +66,9 @@ exports.createRoom = function (email, roomName, cb) {
               finCb();
               return cb (err);
              }
-             exports.addMemberToRoom(email, roomId, function (err) {
-                if (err) {
-                    return cb(err);
-                }
-                return cb(null, roomId);
-             }, conn, finCb);
+             finCb();
+             return cb(null, roomId);
+
 
            });
       });
@@ -85,10 +82,10 @@ exports.addMemberToRoom = function (email, roomId, cb, conn, finCb) {
             if (err) {
                 console.error('Error adding member to room' + err);
                 _finCb();
-                return cb(err);
+                return cb(err, false);
             }
             _finCb();
-            cb(null);
+            cb(null, res.affectedRows > 0);
         });
     };
     if (! conn) {
@@ -238,16 +235,15 @@ exports.addEvent = function (roomId, email, type, value, cb) {
       return cb(err);
     }
     var insertCb = function (err, res) {
+      finCb();
       if (err) {
         console.error(err);
-        finCb();
-	cb(err);
+        cb(err);
       } else {
         return cb(null, res.insertId);
-        finCb();
       }
     };
-	  
+          
     conn.query('INSERT INTO events (rooms_id, member_email, etype, evalue) ' +
                'VALUES (?, ?, ?, ?)', [roomId, email, type, value], insertCb);
   });
@@ -264,20 +260,18 @@ exports.syncEvents = function (roomId, email, lastId, cb) {
       return cb(err);
     }
     var selectCb = function (err, res) {
+      finCb();
       if (err) {
         console.error(err);
-        finCb();
-	cb(err);
+        cb(err);
       } else {
         var sync = { roomId: roomId, events: []};
         for (var i=0; i < res.length; i++) {
-	  // db column type is blob...
-	  res[i].message = new Buffer(res[i].message, 'utf8').toString();
-	  sync.events.push(res[i]);
-	}
-
+          // db column type is blob...
+          res[i].message = new Buffer(res[i].message, 'utf8').toString();
+          sync.events.push(res[i]);
+        }
         return cb(null, sync);
-        finCb();
       }
     };
     conn.query(sel, [roomId, email, roomId, lastId], selectCb);

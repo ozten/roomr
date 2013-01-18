@@ -54,8 +54,12 @@ var knownEmails = {};
 {% for member in members %}
 knownEmails['{{member.email}}'] = true;
 {% endfor %}
+var once = true;
 $('body').bind('page_loaded_user_ready', function (e) {
-  connect('{{audience}}', '{{room.id}}');
+  if (once) {
+    once = false;
+    connect('{{audience}}', '{{room.id}}');
+  }
 });
 
 </script>

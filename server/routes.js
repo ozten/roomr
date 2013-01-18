@@ -63,12 +63,6 @@ app.get('/r/:roomUrl', function (req, res) {
     } else if (! room.room.name) {
         return res.render('unknown_room.html');
     } else {
-        db.addMemberToRoom(req.session.email, roomId, function (err) {
-            if (err) console.error('Unable to add user to room ' + err);
-        });
-        console.log('room =');
-        console.log(room);
-
         return res.render('room.html', {
             audience: config.audience,
             room: room.room,

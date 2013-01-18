@@ -62,6 +62,13 @@ window.connect = function (audience, roomId) {
     else
         $('#stream ol').append(h);
   };
+
+  var renderNewUser = function (profile) {
+    profile.date = (new Date()).toISOString();
+    var h = _.template($("#new_user_template").html())(profile);
+    $('#stream ol').prepend(h);
+  };
+
   socket.on('post message', function (data) {
       if (! knownEmails[currentUser]) {
 	knownEmails[currentUser] = true;
@@ -70,15 +77,24 @@ window.connect = function (audience, roomId) {
         knownEmails[data.email] = true;
 	$('#members').load('/widgets/members/' + roomId);
       }
-    console.log(data);
     renderMessage(data);  
     //window.scrollTo(0, 1000000);
+  });
+  socket.on('new user', function (profile) {
+    renderNewUser(profile);
   });
   socket.on('sync update', function (data) {
     console.log('SYNC UPDATE', data);
     for (var i=0; i < data.events.length; i++) {
-      renderMessage(data.events[i]);
       console.log(i, data.events[i]);
+      try {
+        var event = JSON.parse(data.events[i].message);
+        if (event.name) renderNewUser(event);
+      } catch (e) {
+	console.log(e);
+        // TODO Unify POST are a string, while NEW USER are JSON
+        renderMessage(data.events[i]);
+      }
     }
   });
 
