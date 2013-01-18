@@ -11,6 +11,7 @@ assert = require('assert'),
 db = require('../server/lib/db'),
 fs = require('fs'),
 path = require('path'),
+Step = require('step'),
 child_process = require('child_process'),
 TEST_EMAIL = "oxfordcommagirl@roomr.gov",
 TEST_FIRST_NAME = "OCG",
@@ -19,11 +20,8 @@ TEST_ROOM = "Our Terrible Ideas",
 TEST_OTHER_EMAIL = "biggles@spanishinquisition.org",
 TEST_OTHER_NAME = "Cardinal Biggles";
 
+// Fallback MySQL credentials
 var mysqlExec = "mysql -u roomr -proomr";
-if (process.env['TRAVIS']) {
-  // travis does not like passwords on mysql
-  mysqlExec = "mysql -u roomr";
-}
 
 /**
  * If the person running the test doesn't have a config yet, create
@@ -45,12 +43,45 @@ suite.addBatch({
     // In case last test didn't clean up properly, try to destroy the database
     topic: function() {
       var cb = this.callback;
-      child_process.exec("echo 'drop database test_roomr' | " + mysqlExec, function(err) {
-        if (!err || /database doesn't exist/.test(err.message)) {
-          return cb(null);
-        } 
-        return cb(err);
-      });
+      if (process.env['TRAVIS']) {
+        // travis does not like passwords on mysql
+        mysqlExec = "mysql -u roomr";
+        console.log('TRAVIS');
+        cb();
+      } else {
+        // Use credentials from config
+        try {
+          var config = require('../server/etc/config'),
+              mysql = require('mysql'),
+              conn = mysql.createConnection({
+                host     : config.mysqlHost,
+                port     : config.mysqlPort,
+                user     : config.mysqlUser,
+                password : config.mysqlPassword
+              });
+
+          Step(function () {
+            conn.connect(this);
+          }, function (err) {
+            if (! err) {
+              console.log('Using developer settings for tests');
+              mysqlExec = ['mysql -u ', config.mysqlUser,
+                           ' -p', config.mysqlPassword].join('');
+            }
+            this();
+          },function () {
+            child_process.exec("echo 'drop database test_roomr' | " + mysqlExec, function(err) {
+              if (!err || /database doesn\'t exist/.test(err.message)) {
+                return cb(null);
+              } 
+              return cb(err);
+            });
+          });
+        } catch (e) {
+          // We're under Travis or another no config env...
+          cb(null);
+        }
+      }      
     },
 
     "before starting": function(err) {
@@ -142,6 +173,7 @@ suite.addBatch({
   }
 });
 
+var newRoomId;
 suite.addBatch({
   "Our user can create": {
     topic: function() {
@@ -151,11 +183,20 @@ suite.addBatch({
     "a new room": function(err, roomId) {
       assert(err === null);
       assert(typeof roomId === 'number');
-    }, 
-
+      newRoomId = roomId;
+    },
+    "if she joins it, sockets.js would add her": {
+      topic: function() {
+        db.addMemberToRoom("oxfordcommagirl@roomr.gov", newRoomId, this.callback);
+      }, 
+      "Gets created": function(err, created) {
+	assert(!err);
+	assert(created);
+      }
+    },
     "which has": {
-      topic: function(roomId) {
-        db.getRoom(roomId, this.callback);
+      topic: function() {
+        db.getRoom(newRoomId, this.callback);
       },
 
       "the name she set for it": function(err, details) {
@@ -188,7 +229,7 @@ suite.addBatch({
         db.addMemberToRoom(TEST_OTHER_EMAIL, 1, this.callback);
       },
 
-      "without error": function(err) {
+      "without error": function(err, added) {
         assert(!err);
       },
 
