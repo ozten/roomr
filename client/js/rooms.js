@@ -78,10 +78,12 @@ window.connect = function(audience, roomId) {
         $('#members').load('/widgets/members/' + roomId);
       }
     renderMessage(data);
+    new Audio('/audio/Electro_-S_Bainbr-7955_hifi.wav').play();
     //window.scrollTo(0, 1000000);
   });
   socket.on('new user', function(profile) {
     renderNewUser(profile);
+    new Audio('/audio/scan_for-dont_kno-8102_hifi.wav').play();
   });
   socket.on('sync update', function(data) {
     console.log('SYNC UPDATE', data);
@@ -120,7 +122,9 @@ $('#new-room-tab, #new-room-button').click(function(e) {
   if (! newRoomTabLoaded) {
     newRoomTabLoaded = true;
     $('#new-room-stub').load('/widgets/new_room_form', function() {
-      $('head').append('<link rel="stylesheet" media="screen,projection,tv" href="/css/home.css" />');
+      $('head').append(
+        '<link rel="stylesheet" media="screen,projection,tv" ' +
+        'href="/css/home.css" />');
       initNewRoom();
       $('.cancel', $('#new-room-stub')).click(function(e) {
         e.preventDefault();
@@ -132,7 +136,9 @@ $('#new-room-tab, #new-room-button').click(function(e) {
 
 });
 
-  $('button').bind('click', function(e) {e.preventDefault(); alert('Would eventually be a photo picker and uploader'); });
+  $('button').bind('click', function(e) {
+    e.preventDefault();
+    alert('Would eventually be a photo picker and uploader'); });
 };
 
 var layout = function() {
