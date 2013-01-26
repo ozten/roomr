@@ -13,7 +13,8 @@
     "mysql": "2.0.0-alpha3",
     "nunjucks": "git://github.com/jlongster/nunjucks.git",
     "socket.io": "0.9.10",
-    "step": "0.0.5"
+    "step": "0.0.5",
+    "webremix": "0.0.4"
   },
 
   "devDependencies": {

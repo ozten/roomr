@@ -2,7 +2,8 @@ var avatar = require('./lib/avatar'),
     config = require('./etc/config'),
     cookieReader = require('./lib/client_sessions_cookie_reader'),
     db = require('./lib/db'),
-    socket_io = require('socket.io');
+    socket_io = require('socket.io'),
+    webremix = require('webremix');
 
 exports.setup = function(app) {
     var io = socket_io.listen(app);
@@ -84,24 +85,27 @@ exports.setup = function(app) {
          var email = socket.handshake.email;
          //roomId memberEmail, type, value
          console.log('== SIO post room', data, socket.handshake.email);
-         db.addEvent(data.roomId, email, 'POST', data.message, function(err, eventId) {
-           if (err) {
-             console.log('ERROR saving post room event');
-             console.log(err);
-           } else {
-             db.getProfile(email, function(err, profile) {
-               if (! err) {
-                 var post = {
-                   id: eventId,
-                   message: data.message,
-                   email: email,
-                   name: profile.name,
-                   avatar40: avatar(email, 40) };
-                 io.sockets.in(data.roomId).emit('post message', post);
-               }
-             });
-           }
-         });
+	 var options = { width: 500 };
+         webremix.generate(data.message, options, function(err, message) {
+           db.addEvent(data.roomId, email, 'POST', message, function(err, eventId) {
+             if (err) {
+               console.log('ERROR saving post room event');
+               console.log(err);
+             } else {
+               db.getProfile(email, function(err, profile) {
+		 if (! err) {
+                   var post = {
+                     id: eventId,
+                     message: message,
+                     email: email,
+                     name: profile.name,
+                     avatar40: avatar(email, 40) };
+                   io.sockets.in(data.roomId).emit('post message', post);
+		 }
+               });
+             }
+           });
+	 });
         // checkMemberOfRoom(data.roomId, function(err, isMember) {})
         //socket.get('email')}
 
