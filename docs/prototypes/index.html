@@ -1,0 +1,205 @@
+<html>
+<head>
+<title>Rooms</title>
+<base href="http://roomr.co/r/" />
+<link rel="stylesheet" media="screen,projection,tv" href="/css/reset.css" />
+<link rel="stylesheet" media="screen,projection,tv" href="/css/persona.css" />
+
+<link rel="stylesheet" media="screen,projection,tv" href="/css/room.css" />
+<!-- TODO a A/B testing thing here between room_default.css and room_members_in_banner.css -->
+<link rel="stylesheet" media="screen,projection,tv" href="/css/room_default.css" />
+
+<!-- prototype CSS -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+
+</head>
+<body>
+<div id="wrapper">
+<div id="signinpanel">
+  <div id="current-user"></div>
+<!--  ONLY SHOW UL FOR AUTH'D USERS-->
+  <ul class="top-nav">
+  <li id="signin-header-button"><a href="#" class="invite-members signin dark"><span>Invite Friends</span></a></li>
+  <li id="new-room-button"><a href="#"><span>+ New Room</span></a></li>
+  <li id="signout-button"><a class="signout" href="#"><span>Sign Out</span></a></li>
+  </ul>
+</div>
+<div id="message_template" style="display: none;">
+ <li class="message">
+  <div class="avatar">
+   <img src="${avatar40}" alt=":)"/>
+  </div>
+  <div class="content">
+   <div class="name">${name}</div>
+   <div class="text">${message}</div>
+   <div class="date"><time class="timeago" datetime="${date}">${date}</time></div>
+  </div>
+ </li>
+</div>
+<div id="new_user_template" style="display: none;">
+ <li class="new_user message">
+  <div class="avatar">
+   <img src="${avatar40}" alt=":)"/>
+  </div>
+  <div class="content">
+   <div class="name"><a href="${email}">${name}</a></div>
+   <div class="text">Entered the room</div>
+   <div class="date"><time class="timeago" datetime="${date}">${date}</time></div>
+  </div>
+ </li>
+</div>
+
+
+<div id="main">
+<div id="new-room-stub"></div>
+
+
+<div id="room">
+  <div id="room-name">Roomr Dogfood</div>
+  <div id="editor">
+    <form action="/r/1">
+      <textarea placeholder="What's new?"></textarea>
+    </form>
+  </div>
+  <div id="stream">
+    <ol>
+
+      <!-- Need lots of content while hacking on CSS? -->
+      <!-- li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+      <li>Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam</li>
+      <li> tincidunt congue enim, ut porta lorem lacinia </li>
+      <li>consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit </li>
+      <li>amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum </li>
+      <li>accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.
+
+
+Vivamus fermentum semper porta. Nunc</li>
+      <li> diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci </li>
+      <li>a orci congue vestibulum. Ut</li>
+      <li> dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam</li>
+      <li> at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.</li-->
+    </ol>
+  </div>
+  <!-- div id="new-room-tab"><a href="">+</a></div -->
+</div>
+
+
+<div id="faces">
+ <ul>
+  <li><img src="http://cdn.libravatar.org/avatar/a4bab23535de2c5354377cc5a5fa4bbd?size=120"/></li>
+  <li><img src="http://cdn.libravatar.org/avatar/4021c2acfc5b98b6dfe2d0ec26432ce1?size=120"/></li>
+  <li><img src="http://cdn.libravatar.org/avatar/e1330165d3cddafbfda2f5a11a6d056c?size=120"/></li>
+ </ul>
+</div>
+
+
+<div id="new-user">
+  <h2>Welcome! What's Your name?</h2>
+  <form id="profile">
+    <fieldset>
+      <label for="profilename">Name</label></label>
+      <input type="text" id="profilename" name="profilename" value="" />
+    </fieldset>
+    <input type="submit" value="Create Account" />
+  </form>
+</div>
+
+</div>
+</div>
+<style>
+#invite-panel {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 654px;
+  background-color: #fff;
+  color: black  ;
+  padding: 10px;
+}
+#invite-panel h3 {
+  font-size: 1.4em;
+}
+#invite-panel div {
+  padding-top: 10px;
+}
+</style>
+<div id="invite-panel">
+  <h3>Invite a Friend</h3>
+  <input /><button class="import">Import</button>
+  <div><a href="" class="cancel">Cancel</a> <button class="submit">Invite</button></div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
+<script src="/js/libs/underscore-min.1.4.3.js"></script>
+<script src="/js/libs/jquery.timeago.js"></script>
+<script>
+// prototype only JS
+$('#signinpanel').show();
+
+$('.invite-members ').click(function (e){
+  e.preventDefault();
+  $('#invite-panel').show();
+});
+$('#invite-panel button.import').click(function (e) {
+  e.preventDefault();
+  window.open('http://ozten.com/random/identity/roomr_contacts/persona_contacts.html','persona_contacts', "width=500,height=300");
+});
+$('#invite-panel .cancel').click(function (e) {
+  e.preventDefault();
+  $('#invite-panel').hide();
+});
+$('#invite-panel input').autocomplete({source: [
+  "Jane Doe (jane@gmail.com)", "James Johnson (jj@aol.com)", "Jack (jack@wick.net)"
+  ]});
+</script>
+<!-- script src="https://login.persona.org/include.js"></script>
+<script>
+var currentUser = "shout@ozten.com";
+</script>
+<script src="/js/auth.js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/rooms.js"></script>
+<script>
+var roomId = '1';
+var knownEmails = {};
+
+knownEmails['crystal@mozilla.com'] = true;
+
+knownEmails['dascher@mozilla.com'] = true;
+
+knownEmails['jed@jedparsons.com'] = true;
+
+knownEmails['jen@ednapiranha.com'] = true;
+
+knownEmails['lloyd@hilaiel.com'] = true;
+
+knownEmails['ozten@mozilla.com'] = true;
+
+knownEmails['robhudson@mozilla.com'] = true;
+
+knownEmails['shout@ozten.com'] = true;
+
+knownEmails['woosterp@gmail.com'] = true;
+
+var once = true;
+$('body').bind('page_loaded_user_ready', function (e) {
+  if (once) {
+    once = false;
+    connect('http://roomr.co', '1');
+  }
+});
+
+</script>
+<script src="/js/home.js" defer="true"></script>
+
+<script>
+
+
+    $('body').trigger('page_loaded_user_ready');
+
+
+</script -->
+</body>
+</html>
